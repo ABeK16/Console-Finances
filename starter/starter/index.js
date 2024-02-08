@@ -86,3 +86,56 @@ var finances = [
   ['Jan-2017', 138230],
   ['Feb-2017', 671099],
 ];
+function getTotalMonths(months) {
+  const uniqueMonths = new Set(months);
+  return uniqueMonths.size;
+}
+
+// usage 
+var totalMonths = getTotalMonths(finances);
+// Initialize variables
+var netTotal = 0;
+var changes = [];
+var greatestIncrease = { date: '', amount: -Infinity };
+var greatestDecrease = { date: '', amount: Infinity };
+
+// Loop through the finances array to calculate the net total and changes
+for (var i = 0; i < finances.length; i++) {
+  // Calculate net total
+  netTotal += finances[i][1];
+
+  // Calculate changes
+  if (i > 0) {
+    var change = finances[i][1] - finances[i - 1][1];
+    changes.push(change);
+
+    // Update greatest increase and decrease
+    if (change > greatestIncrease.amount) {
+      greatestIncrease.amount = change;
+      greatestIncrease.date = finances[i][0];
+    }
+    if (change < greatestDecrease.amount) {
+      greatestDecrease.amount = change;
+      greatestDecrease.date = finances[i][0];
+    }
+  }
+}
+
+// Calculate average change
+var sum = changes.reduce(function (accumulator, currentValue) {
+  return accumulator + currentValue;
+}, 0);
+var averageChange = (sum / (totalMonths - 1)).toFixed(2);
+
+// Output results
+function Printonweb() {
+ 
+console.log('Total number of months:', totalMonths);
+ console.log('Net total amount of Profit/Losses:', netTotal);
+console.log('Average of the changes in Profit/Losses:', averageChange);
+console.log('Greatest increase in Profit/Losses:', greatestIncrease);
+console.log('Greatest decrease in Profit/Losses:', greatestDecrease); 
+
+}
+
+Printonweb();
